@@ -1,32 +1,32 @@
 <template>
-  <div class="page-container">
+  <div>
     <md-app>
-      <md-app-toolbar >
-        <md-field id="search-input">
-          <md-input></md-input>
-        </md-field>
-      </md-app-toolbar>
-
       <md-app-drawer md-permanent="full">
-        <md-list>
+        <md-list class="menu">
           <md-list-item>
             <NuxtLink to="/">
-              <md-button md-menu-trigger>Quản lý tài khoản</md-button>
+              <md-button md-menu-trigger class="btmenu">Quản lý tài khoản</md-button>
             </NuxtLink>
           </md-list-item>
           <md-list-item>
-              <md-button md-menu-trigger @click="showDialog = true">Tạo tài khoản</md-button>
+              <md-button md-menu-trigger @click="showDialog = true" class="btmenu">Tạo tài khoản</md-button>
           </md-list-item>
         </md-list>
       </md-app-drawer>
 
+      
+
       <md-app-content>
-        <div>
-          <md-button class="md-dense md-raised md-primary" @click="viewmode = 'list'">List</md-button>
-          <md-button class="md-dense md-raised md-primary" @click="viewmode = 'card'">Card</md-button>
+        <div v-if="viewmode === 'list'">
+          <md-button class="md-dense md-raised md-mini md-fab-bottom-right md-primary" @click="viewmode = 'list'">List</md-button>
+          <md-button class="md-dense md-raised md-mini md-fab-bottom-right" @click="viewmode = 'card'">Card</md-button>
         </div>
-        <div v-for="account in accounts" :key="account._id" >
-            <div v-if="viewmode === 'card'" class="md-card">
+        <div v-if="viewmode === 'card'">
+          <md-button class="md-dense md-raised md-mini" @click="viewmode = 'list'">List</md-button>
+          <md-button class="md-dense md-raised md-mini md-primary" @click="viewmode = 'card'">Card</md-button>
+        </div>
+        <div v-for="account in accounts" :key="account._id" class="md-elevation-2 info-box">
+            <div v-if="viewmode === 'card'" class="md-card md-with-hover">
               <div class="md-card-header">
                 <div class="md-title">Card without hover effect</div>
               </div>
@@ -39,8 +39,8 @@
                 <md-button>Action</md-button>
               </div>
             </div>
-            <div v-if="viewmode === 'list'" class="md-list">
-              <md-list-item class="info-box">
+            <div v-if="viewmode === 'list'" class="md-list md-list-hover">
+              <md-list-item>
                 <md-avatar>
                   <img src="https://placeimg.com/40/40/people/1" alt="People">
                 </md-avatar>
@@ -108,7 +108,7 @@
               <md-textarea v-model="editAccount.address" name="address"></md-textarea>
             </md-field>
 
-            <md-card-actions>
+            <md-card-actions class="btmodal">
               <md-button type="submit" class="md-primary"  @click.prevent="onSave">Tạo tài khoản</md-button>
               <md-button class="md-primary" @click="showDialog = false">Close</md-button>
             </md-card-actions>
@@ -166,7 +166,7 @@
               <md-textarea v-model="editAccount.address" name="address"></md-textarea>
             </md-field>
 
-            <md-card-actions>
+            <md-card-actions class="btmodal">
               <md-button type="submit" class="md-primary"  @click.prevent="onSave">Tạo tài khoản</md-button>
               <md-button class="md-primary" @click="showDialogEdit = false">Close</md-button>
             </md-card-actions>
@@ -178,6 +178,33 @@
 
 <style lang="css" scoped>
 
+.md-list-hover:hover {
+    cursor: pointer;
+    box-shadow: 0 5px 15px 2px rgba(3, 5, 5, 0.1);
+    transition-duration: 0.3s, 0.4s;
+}
+
+.page-container {
+  margin: 0px;
+}
+
+.md-app-drawer, .menu  {
+  background-color: var(--md-theme-default-primary, #448aff);
+}
+
+.menu {
+  margin-top: 30px;
+}
+
+.btmodal{
+  margin-bottom: 30px;
+}
+
+.btmenu {
+  color: #fff;
+  margin: 10px;
+}
+
 .md-card {
     width: 320px;
     margin: 4px;
@@ -187,8 +214,7 @@
   }
 .info-box{
     list-style-position:inside;
-    border: 1px solid black;
-    margin: 1px;
+    margin: 10px;
 }
   .list {
     list-style: none;
@@ -344,7 +370,6 @@ export default {
       }
     }
   },
-
   methods:{
     onSave()
     {
