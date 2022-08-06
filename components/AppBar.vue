@@ -35,7 +35,7 @@
               </div>
 
               <div class="md-card-actions">
-                <md-button md-menu-trigger @click="showDialogEdit = true">Sửa</md-button>
+                <md-button md-menu-trigger v-on:click="editModal(account.id)">Sửa</md-button>
                 <md-button>Action</md-button>
               </div>
             </div>
@@ -51,7 +51,7 @@
                   <p>{{account.address}}</p>
                   <span>{{account.date}}</span>
                 </div>
-                <md-button md-menu-trigger @click="showDialogEdit = true">Sửa</md-button>
+                <md-button md-menu-trigger v-on:click="editModal(account.id)">Sửa</md-button>
               </md-list-item>
             </div>
         </div>
@@ -62,30 +62,30 @@
       <md-dialog :md-active.sync="showDialog">
         <md-dialog-title>Thêm</md-dialog-title>
 
-        <form class="createForm" id="create">
+        <form class="createForm" id="create" v-on:submit.prevent="onSubmit()">
             <md-field class="md-field-dialog">
               <label>Họ và tên</label>
-              <md-input v-model="editAccount.name" name="name"></md-input>
+              <md-input v-model="naccount.name" name="name"></md-input>
             </md-field>
 
             <md-field class="md-field-dialog">
               <label>Email</label>
-              <md-input v-model="editAccount.email" name="email"></md-input>
+              <md-input v-model="naccount.email" name="email"></md-input>
             </md-field>
 
             <md-field class="md-field-dialog">
               <label>Mật khẩu</label>
-              <md-input v-model="editAccount.pw" type="password" name="pw"></md-input>
+              <md-input v-model="naccount.pw" type="password" name="pw"></md-input>
             </md-field>
 
             <md-field class="md-field-dialog">
               <label>Nhập lại mật khẩu</label>
-              <md-input v-model="editAccount.cpw" type="password" name="cpw"></md-input>
+              <md-input v-model="naccount.cpw" type="password" name="cpw"></md-input>
             </md-field>
 
             <md-field class="md-field-dialog">
               <label>Số điện thoại</label>
-              <md-input v-model="editAccount.date"></md-input>
+              <md-input v-model="naccount.date"></md-input>
             </md-field>
 
             
@@ -105,11 +105,11 @@
 
             <md-field class="md-field-dialog">
               <label>Địa chỉ</label>
-              <md-textarea v-model="editAccount.address" name="address"></md-textarea>
+              <md-textarea v-model="naccount.address" name="address"></md-textarea>
             </md-field>
 
             <md-card-actions class="btmodal">
-              <md-button type="submit" class="md-primary"  @click.prevent="onSave">Tạo tài khoản</md-button>
+              <md-button type="submit" class="md-primary">Tạo tài khoản</md-button>
               <md-button class="md-primary" @click="showDialog = false">Close</md-button>
             </md-card-actions>
           </form>
@@ -123,7 +123,7 @@
         <form class="createForm" id="create">
             <md-field class="md-field-dialog">
               <label>Họ và tên</label>
-              <md-input v-model="editAccount.name" name="name"></md-input>
+              <md-input v-model="editAccount.name" name="editname" id="editname"></md-input>
             </md-field>
 
             <md-field class="md-field-dialog">
@@ -268,9 +268,8 @@
 
 <script>
 // let account = [
-// //         accounts: [
 //         {
-//            _id: 1,
+//           id: 1,
 //           name: 'Nguyen Hoang Thai',
 //           username: 'nhthai12',
 //           email: 'hoangthai123@gmail.com',
@@ -278,7 +277,7 @@
 //           date: '0343579108'
 //         },
 //         {
-//           _id: 2,
+//           id: 2,
 //           name: 'Nguyen Hoang Thong',
 //           username: 'nhthong1',
 //           email: 'hoangthong123@gmail.com',
@@ -286,7 +285,7 @@
 //           date: '0903456471'
 //         },
 //         {
-//           _id: 3,
+//           id: 3,
 //           name: 'Nguyen Hoang Phu',
 //           username: 'nhphu123',
 //           email: 'hoangphu123@gmail.com',
@@ -294,7 +293,6 @@
 //           date: '0121568423'
 //         },
 //       ]
-// ]
 // account = JSON.stringify(account);
 // if (process.browser) {
 //   window.localStorage.setItem('account', account);
@@ -306,76 +304,114 @@
   //  console.log(accounts1);
   // }
   
-  
+import $ from 'jquery';  
 
 export default {
   name: 'RegularSwitch',
-  props: {
-    account: {
-      type: Object,
-      default: {
-        name: '',
-        username: '',
-        pw: '',
-        cpw: '',
-        address: '',
-        date: '',
-      }
-    }
-  },
+  // props: {
+  //   account: {
+  //     type: Object,
+  //     default: {
+  //       name: '',
+  //       username: '',
+  //       pw: '',
+  //       cpw: '',
+  //       address: '',
+  //       date: '',
+  //     }
+  //   }
+  // },
 
   data() {
       return {
-        accounts: [
+      accounts: [
         {
-           _id: 1,
-          name: 'Nguyen Hoang Thai',
-          username: 'nhthai12',
-          email: 'hoangthai123@gmail.com',
-          address: 'so 2538 to 1 ap Thuan Thanh xa Thuan An thi xa Binh Minh tinh Vinh Long',
-          date: '0343579108'
-        },
-        {
-          _id: 2,
-          name: 'Nguyen Hoang Thong',
-          username: 'nhthong1',
-          email: 'hoangthong123@gmail.com',
-          address: 'so 2538 to 1 ap Thuan Thanh xa Thuan An thi xa Binh Minh tinh Vinh Long',
-          date: '0903456471'
-        },
-        {
-          _id: 3,
-          name: 'Nguyen Hoang Phu',
-          username: 'nhphu123',
-          email: 'hoangphu123@gmail.com',
-          address: 'so 1234 to 5 ap Tuan Hoang xa Phu Quan huyen Tra On tinh Vinh Long',
-          date: '0121568423'
-        },
-      ],   
-      
+          name: '',
+          username: '',
+          pw: '',
+          cpw: '',
+          address: '',
+          date: '',
+        }
+      ],
+      naccount: [{
+        name: '',
+        email: '',
+        pw: '',
+        cpw: '',
+        date: '',
+        address: '',
+      }],
+      editAccount: [{
+        name: '',
+        email: '',
+        pw: '',
+        cpw: '',
+        date: '',
+        address: '',
+      }],     
       switchs: 0,
       radio: 'accent',
       viewmode: 'list',
       showDialog: false,
       showDialogEdit: false,
       isSubmit: false,
+      editButton: false,
 
-        editAccount: this.account ? {...this.account } : {
-        name: '',
-        username: '',
-        pw: '',
-        cpw: '',
-        address: '',
-        date: '',
-      }
+      //   editAccount: this.account ? {...this.account } : {
+      //   name: '',
+      //   username: '',
+      //   pw: '',
+      //   cpw: '',
+      //   address: '',
+      //   date: '',
+      // }
     }
   },
+
+  created() {
+    if(process.browser) {
+      let data = localStorage.getItem('account');
+      data = JSON.parse(data);
+      this.accounts = data;
+    }
+    $(function(){
+      console.log($('#editname').attr('class'));
+    })
+  },
+
   methods:{
-    onSave()
+    onSubmit()
     {
       this.showDialog = false;
+      let account = 
+        {
+          name: 'Nguyen Hoang Thai',
+          username: 'nhthai12',
+          email: 'hoangthai123@gmail.com',
+          address: 'so 2538 to 1 ap Thuan Thanh xa Thuan An thi xa Binh Minh tinh Vinh Long',
+          date: '0343579108'
+        };
       
-    }
+      if (process.browser) {
+        let data = localStorage.getItem('account');
+        data = JSON.parse(data);
+        data.push(account);
+        data = JSON.stringify(data);
+        window.localStorage.setItem('account', data);
+      }
+    },
+
+  editModal: function(id)
+  {
+    let data = localStorage.getItem('account');
+    data = JSON.parse(data);
+    let editAccount = data.find((account) => account.id == id);
+    
+    this.showDialogEdit = true;
+  }
   },
+
+  
 }
 </script>

@@ -1,3 +1,5 @@
+import webpack from "webpack";
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -56,5 +58,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+
+  script: [
+    {
+      src: "https://code.jquery.com/jquery-3.6.0.slim.min.js",
+      type: "text/javascript"
+    },
+  ]
 }
