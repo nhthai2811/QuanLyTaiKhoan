@@ -27,31 +27,38 @@
         </div>
         <div v-for="account in accounts" :key="account._id" class="md-elevation-2 info-box">
             <div v-if="viewmode === 'card'" class="md-card md-with-hover">
-              <div class="md-card-header">
-                <div class="md-title">Card without hover effect</div>
-              </div>
-              <div class="md-card-content">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non.
-              </div>
+              <md-card-header>
+                <md-card-header-text>
+                  <span>{{account.name}}</span><br>
+                  <span>{{account.username}}</span>
+                  <span>{{account.email}}</span><br>
+                  <span>{{account.address}}</span>
+                  <span>{{account.date}}</span>
+                </md-card-header-text>
+
+                <md-card-media>
+                  <img :src="account.avt" alt="Avatar">
+                </md-card-media>
+              </md-card-header>
 
               <div class="md-card-actions">
                 <md-button md-menu-trigger v-on:click="editModal(account.id)">Sửa</md-button>
-                <md-button>Action</md-button>
+                <md-button class="md-accent" v-on:click="delModal(account.id)">Xóa</md-button>
               </div>
             </div>
             <div v-if="viewmode === 'list'" class="md-list md-list-hover">
               <md-list-item>
                 <md-avatar>
-                  <img src="https://placeimg.com/40/40/people/1" alt="People">
+                  <img class="avt" :src="account.avt" alt="People">
                 </md-avatar>
                 <div class="md-list-item-text">
-                  <span>{{account.name}}</span>
                   <span>{{account.username}}</span>
-                  <span>{{account.email}}</span>
-                  <p>{{account.address}}</p>
+                  <span>{{account.name}}</span>
                   <span>{{account.date}}</span>
+                  <span>{{account.email}}</span>
                 </div>
                 <md-button md-menu-trigger v-on:click="editModal(account.id)">Sửa</md-button>
+                <md-button class="md-accent" v-on:click="delModal(account.id)">Xóa</md-button>
               </md-list-item>
             </div>
         </div>
@@ -64,50 +71,30 @@
 
         <form class="createForm" id="create" v-on:submit.prevent="onSubmit()">
             <md-field class="md-field-dialog">
+              <label>Tên tài khoản</label>
+              <md-input v-model="naccount.username" name="username"></md-input>
+            </md-field>
+            <md-field class="md-field-dialog">
               <label>Họ và tên</label>
               <md-input v-model="naccount.name" name="name"></md-input>
             </md-field>
-
             <md-field class="md-field-dialog">
               <label>Email</label>
               <md-input v-model="naccount.email" name="email"></md-input>
             </md-field>
-
-            <md-field class="md-field-dialog">
-              <label>Mật khẩu</label>
-              <md-input v-model="naccount.pw" type="password" name="pw"></md-input>
-            </md-field>
-
-            <md-field class="md-field-dialog">
-              <label>Nhập lại mật khẩu</label>
-              <md-input v-model="naccount.cpw" type="password" name="cpw"></md-input>
-            </md-field>
-
-            <md-field class="md-field-dialog">
-              <label>Số điện thoại</label>
-              <md-input v-model="naccount.date"></md-input>
-            </md-field>
-
+            <div class="md-field-dialog">
+              <md-datepicker v-model="naccount.date">
+              <label>Ngày sinh</label>
+              </md-datepicker>
+            </div>
             
-                <md-field class="md-field-dialog">
-                  <label for="movie">Giới tính</label>
-                  <md-select name="movie" id="movie" disabled>
-                    <md-option value="fight-club">Fight Club</md-option>
-                    <md-option value="godfather">Godfather</md-option>
-                    <md-option value="godfather-ii">Godfather II</md-option>
-                    <md-option value="godfather-iii">Godfather III</md-option>
-                    <md-option value="godfellas">Godfellas</md-option>
-                    <md-option value="pulp-fiction">Pulp Fiction</md-option>
-                    <md-option value="scarface">Scarface</md-option>
-                  </md-select>
-                </md-field>
+            <div class="md-field-dialog">
+              <div>
+                <md-radio v-model="naccount.gender" value="nam" class="md-primary">Nam</md-radio>
+                <md-radio v-model="naccount.gender" value="nu" class="md-primary">Nữ</md-radio>
+              </div>
+            </div>
                 
-
-            <md-field class="md-field-dialog">
-              <label>Địa chỉ</label>
-              <md-textarea v-model="naccount.address" name="address"></md-textarea>
-            </md-field>
-
             <md-card-actions class="btmodal">
               <md-button type="submit" class="md-primary">Tạo tài khoản</md-button>
               <md-button class="md-primary" @click="showDialog = false">Close</md-button>
@@ -122,50 +109,29 @@
 
         <form class="createForm" id="create">
             <md-field class="md-field-dialog">
-              <label>Họ và tên</label>
-              <md-input v-model="editAccount.name" name="editname" id="editname"></md-input>
+              <label>Tên tài khoản</label>
+              <md-input v-model="editAccount.username" name="username"></md-input>
             </md-field>
-
+            <md-field class="md-field-dialog">
+              <label>Họ và tên</label>
+              <md-input v-model="editAccount.name" name="name"></md-input>
+            </md-field>
             <md-field class="md-field-dialog">
               <label>Email</label>
               <md-input v-model="editAccount.email" name="email"></md-input>
             </md-field>
-
-            <md-field class="md-field-dialog">
-              <label>Mật khẩu</label>
-              <md-input v-model="editAccount.pw" type="password" name="pw"></md-input>
-            </md-field>
-
-            <md-field class="md-field-dialog">
-              <label>Nhập lại mật khẩu</label>
-              <md-input v-model="editAccount.cpw" type="password" name="cpw"></md-input>
-            </md-field>
-
-            <md-field class="md-field-dialog">
-              <label>Số điện thoại</label>
-              <md-input v-model="editAccount.date"></md-input>
-            </md-field>
-
+            <div class="md-field-dialog">
+              <md-datepicker v-model="editAccount.date">
+              <label>Ngày sinh</label>
+              </md-datepicker>
+            </div>
             
-                <md-field class="md-field-dialog">
-                  <label for="movie">Giới tính</label>
-                  <md-select name="movie" id="movie" disabled>
-                    <md-option value="fight-club">Fight Club</md-option>
-                    <md-option value="godfather">Godfather</md-option>
-                    <md-option value="godfather-ii">Godfather II</md-option>
-                    <md-option value="godfather-iii">Godfather III</md-option>
-                    <md-option value="godfellas">Godfellas</md-option>
-                    <md-option value="pulp-fiction">Pulp Fiction</md-option>
-                    <md-option value="scarface">Scarface</md-option>
-                  </md-select>
-                </md-field>
-                
-
-            <md-field class="md-field-dialog">
-              <label>Địa chỉ</label>
-              <md-textarea v-model="editAccount.address" name="address"></md-textarea>
-            </md-field>
-
+            <div class="md-field-dialog">
+              <div>
+                <md-radio v-model="editAccount.gender" value="nam" class="md-primary">Nam</md-radio>
+                <md-radio v-model="editAccount.gender" value="nu" class="md-primary">Nữ</md-radio>
+              </div>
+            </div>
             <md-card-actions class="btmodal">
               <md-button type="submit" class="md-primary"  @click.prevent="onSave">Tạo tài khoản</md-button>
               <md-button class="md-primary" @click="showDialogEdit = false">Close</md-button>
@@ -189,7 +155,7 @@
 }
 
 .md-app-drawer, .menu  {
-  background-color: var(--md-theme-default-primary, #448aff);
+  background-color:  #448aff;
 }
 
 .menu {
@@ -267,30 +233,34 @@
 </style>
 
 <script>
+import format from 'date-fns/format'
 // let account = [
 //         {
 //           id: 1,
-//           name: 'Nguyen Hoang Thai',
+//           avt: 'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg',
 //           username: 'nhthai12',
+//           name: 'Nguyen Hoang Thai',
+//           date: '0343579108',
 //           email: 'hoangthai123@gmail.com',
-//           address: 'so 2538 to 1 ap Thuan Thanh xa Thuan An thi xa Binh Minh tinh Vinh Long',
-//           date: '0343579108'
+//           gender: 'nam',
 //         },
 //         {
 //           id: 2,
-//           name: 'Nguyen Hoang Thong',
+//           avt: 'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg',
 //           username: 'nhthong1',
+//           name: 'Nguyen Hoang Thong',
+//           date: '0903456471',
 //           email: 'hoangthong123@gmail.com',
-//           address: 'so 2538 to 1 ap Thuan Thanh xa Thuan An thi xa Binh Minh tinh Vinh Long',
-//           date: '0903456471'
+//           gender: 'nam',
 //         },
 //         {
 //           id: 3,
-//           name: 'Nguyen Hoang Phu',
+//           avt: 'https://www.smiledental.co.nz/wp-content/uploads/1997/12/generic-avatar-female-2-300x300.png',
 //           username: 'nhphu123',
+//           name: 'Nguyen Hoang Phu',
+//           date: '0121568423',
 //           email: 'hoangphu123@gmail.com',
-//           address: 'so 1234 to 5 ap Tuan Hoang xa Phu Quan huyen Tra On tinh Vinh Long',
-//           date: '0121568423'
+//           gender: 'nu',
 //         },
 //       ]
 // account = JSON.stringify(account);
@@ -337,8 +307,7 @@ export default {
       naccount: [{
         name: '',
         email: '',
-        pw: '',
-        cpw: '',
+        avt: '',
         date: '',
         address: '',
       }],
@@ -357,6 +326,9 @@ export default {
       showDialogEdit: false,
       isSubmit: false,
       editButton: false,
+      selectedDate: null,
+      gender: true,
+      del: false,
 
       //   editAccount: this.account ? {...this.account } : {
       //   name: '',
@@ -375,30 +347,34 @@ export default {
       data = JSON.parse(data);
       this.accounts = data;
     }
-    $(function(){
-      console.log($('#editname').attr('class'));
-    })
   },
 
   methods:{
     onSubmit()
     {
       this.showDialog = false;
-      let account = 
-        {
-          name: 'Nguyen Hoang Thai',
-          username: 'nhthai12',
-          email: 'hoangthai123@gmail.com',
-          address: 'so 2538 to 1 ap Thuan Thanh xa Thuan An thi xa Binh Minh tinh Vinh Long',
-          date: '0343579108'
-        };
-      
       if (process.browser) {
         let data = localStorage.getItem('account');
         data = JSON.parse(data);
+        if(!data){
+          data = [];
+        }
+        let id = data.length + 1;
+        let account = 
+        {
+          id: id,
+          avt: 'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg',
+          username: this.naccount.username,
+          name: this.naccount.name,
+          date: format(this.naccount.date, "yyyy-MM-dd"),
+          email: this.naccount.email,
+          gender: this.naccount.gender,
+        };
+        if(account.gender == 'nu') account.avt = 'https://www.smiledental.co.nz/wp-content/uploads/1997/12/generic-avatar-female-2-300x300.png' ;
         data.push(account);
         data = JSON.stringify(data);
         window.localStorage.setItem('account', data);
+        window.location.reload();
       }
     },
 
@@ -407,11 +383,20 @@ export default {
     let data = localStorage.getItem('account');
     data = JSON.parse(data);
     let editAccount = data.find((account) => account.id == id);
-    
-    this.showDialogEdit = true;
-  }
+    this.showDialogEdit = 'nam';
   },
 
-  
+  delModal(id){
+    if (confirm('Bạn muốn xóa tài khoản này ?') == true) {
+      let data = localStorage.getItem('account');
+      data = JSON.parse(data);
+      let delAccountIndex = data.findIndex((account) => account.id == id);
+      data.splice(delAccountIndex,1);
+      data = JSON.stringify(data);
+      window.localStorage.setItem('account', data);
+      window.location.reload();
+    }
+  },
+  },
 }
 </script>
