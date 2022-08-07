@@ -14,8 +14,6 @@
         </md-list>
       </md-app-drawer>
 
-      
-
       <md-app-content>
         <div v-if="viewmode === 'list'">
           <md-button class="md-dense md-raised md-mini md-fab-bottom-right md-primary" @click="viewmode = 'list'">List</md-button>
@@ -25,76 +23,84 @@
           <md-button class="md-dense md-raised md-mini" @click="viewmode = 'list'">List</md-button>
           <md-button class="md-dense md-raised md-mini md-primary" @click="viewmode = 'card'">Card</md-button>
         </div>
-        <div v-for="account in accounts" :key="account._id" class="md-elevation-2 info-box">
-            <div v-if="viewmode === 'card'" class="md-card md-with-hover">
-              <md-card-header>
-                <md-card-header-text>
-                  <span>{{account.name}}</span><br>
-                  <span>{{account.username}}</span>
-                  <span>{{account.email}}</span><br>
-                  <span>{{account.address}}</span>
-                  <span>{{account.date}}</span>
-                </md-card-header-text>
+        <div id="listAccount">
+          <div v-for="account in accounts" :key="account._id" class="md-elevation-2 info-box">
+              <div v-if="viewmode === 'card'" class="md-card md-with-hover">
+                <md-card-header>
+                  <md-card-header-text>
+                    <span>{{account.name}}</span><br>
+                    <span>{{account.username}}</span>
+                    <span>{{account.email}}</span><br>
+                    <span>{{account.address}}</span>
+                    <span>{{account.date}}</span>
+                  </md-card-header-text>
 
-                <md-card-media>
-                  <img :src="account.avt" alt="Avatar">
-                </md-card-media>
-              </md-card-header>
+                  <md-card-media>
+                    <img :src="account.avt" alt="Avatar">
+                  </md-card-media>
+                </md-card-header>
 
-              <div class="md-card-actions">
-                <md-button md-menu-trigger v-on:click="editModal(account.id)">Sửa</md-button>
-                <md-button class="md-accent" v-on:click="delModal(account.id)">Xóa</md-button>
-              </div>
-            </div>
-            <div v-if="viewmode === 'list'" class="md-list md-list-hover">
-              <md-list-item>
-                <md-avatar>
-                  <img class="avt" :src="account.avt" alt="People">
-                </md-avatar>
-                <div class="md-list-item-text">
-                  <span>{{account.username}}</span>
-                  <span>{{account.name}}</span>
-                  <span>{{account.date}}</span>
-                  <span>{{account.email}}</span>
+                <div class="md-card-actions">
+                  <md-button md-menu-trigger v-on:click="editModal(account.id)">Sửa</md-button>
+                  <md-button class="md-accent" v-on:click="delModal(account.id)">Xóa</md-button>
                 </div>
-                <md-button md-menu-trigger v-on:click="editModal(account.id)">Sửa</md-button>
-                <md-button class="md-accent" v-on:click="delModal(account.id)">Xóa</md-button>
-              </md-list-item>
-            </div>
+              </div>
+              <div v-if="viewmode === 'list'" class="md-list md-list-hover">
+                <md-list-item>
+                  <md-avatar>
+                    <img class="avt" :src="account.avt" alt="People">
+                  </md-avatar>
+                  <div class="md-list-item-text">
+                    <span>{{account.username}}</span>
+                    <span>{{account.name}}</span>
+                    <span>{{account.date}}</span>
+                    <span>{{account.email}}</span>
+                  </div>
+                  <md-button md-menu-trigger v-on:click="editModal(account.id)">Sửa</md-button>
+                  <md-button class="md-accent" v-on:click="delModal(account.id)">Xóa</md-button>
+                </md-list-item>
+              </div>
+          </div> 
         </div>
       </md-app-content>
     </md-app>
-
     <div>
       <md-dialog :md-active.sync="showDialog">
         <md-dialog-title>Thêm</md-dialog-title>
 
-        <form class="createForm" id="create" v-on:submit.prevent="onSubmit()">
-            <md-field class="md-field-dialog">
+        <form class="createForm" id="create" name="createForm" v-on:submit.prevent="onSubmit()">
+            <md-field class="md-field-dialog" :md-counter="false">
               <label>Tên tài khoản</label>
-              <md-input v-model="naccount.username" name="username"></md-input>
+              <md-input v-model="naccount.username" name="username" maxlength="8" ></md-input>
             </md-field>
-            <md-field class="md-field-dialog">
+            <div class="error" v-if="errors.username">{{errors.username}}</div>
+            <md-field class="md-field-dialog" :md-counter="false">
               <label>Họ và tên</label>
-              <md-input v-model="naccount.name" name="name"></md-input>
+              <md-input v-model="naccount.name" name="name" maxlength="20"></md-input>
             </md-field>
             <md-field class="md-field-dialog">
               <label>Email</label>
-              <md-input v-model="naccount.email" name="email"></md-input>
+              <md-input v-model="naccount.email" name="email" type="email" ></md-input>
             </md-field>
+            <div class="error" v-if="errors.email">{{errors.email}}</div>
             <div class="md-field-dialog">
-              <md-datepicker v-model="naccount.date">
+              <md-datepicker v-model="naccount.date" >
               <label>Ngày sinh</label>
               </md-datepicker>
             </div>
-            
+            <div class="error" v-if="errors.date">{{errors.date}}</div>
             <div class="md-field-dialog">
               <div>
                 <md-radio v-model="naccount.gender" value="nam" class="md-primary">Nam</md-radio>
                 <md-radio v-model="naccount.gender" value="nu" class="md-primary">Nữ</md-radio>
               </div>
             </div>
-                
+            <div class="error" v-if="errors.gender">{{errors.gender}}</div>
+            <md-field class="md-field-dialog" :md-counter="false">
+              <label>Địa chỉ</label>
+              <md-textarea v-model="naccount.address" maxlength="200" md-autogrow ></md-textarea>
+            </md-field>
+            <div class="error" v-if="errors.address">{{errors.address}}</div>
             <md-card-actions class="btmodal">
               <md-button type="submit" class="md-primary">Tạo tài khoản</md-button>
               <md-button class="md-primary" @click="showDialog = false">Close</md-button>
@@ -110,7 +116,7 @@
         <form class="createForm" id="create">
             <md-field class="md-field-dialog">
               <label>Tên tài khoản</label>
-              <md-input v-model="editAccount.username" name="username"></md-input>
+              <md-input v-model="editAccount.username" name="username" maxlength="8"></md-input>
             </md-field>
             <md-field class="md-field-dialog">
               <label>Họ và tên</label>
@@ -230,10 +236,25 @@
   .md-dialog-container .md-theme-default  {
     width: 450px;
   }
+
+  .error {
+    color: red;
+    font-size: 75%;
+    margin-left: 10%;
+  }
 </style>
 
 <script>
 import format from 'date-fns/format'
+import Vue from 'vue'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
+import Vuelidate from 'vuelidate'
+import { required, email, minLength, maxLength } from 'vuelidate/lib/validators'
+
+Vue.use(VueMaterial);
+Vue.use(Vuelidate);
 // let account = [
 //         {
 //           id: 1,
@@ -295,21 +316,8 @@ export default {
   data() {
       return {
       accounts: [
-        {
-          name: '',
-          username: '',
-          pw: '',
-          cpw: '',
-          address: '',
-          date: '',
-        }
       ],
       naccount: [{
-        name: '',
-        email: '',
-        avt: '',
-        date: '',
-        address: '',
       }],
       editAccount: [{
         name: '',
@@ -319,6 +327,14 @@ export default {
         date: '',
         address: '',
       }],     
+      errors: [{
+        username: '',
+        name: '',
+        date: '',
+        address: '',
+        gmail: '',
+        gender: '',
+      }],
       switchs: 0,
       radio: 'accent',
       viewmode: 'list',
@@ -327,8 +343,9 @@ export default {
       isSubmit: false,
       editButton: false,
       selectedDate: null,
-      gender: true,
+      gender: null,
       del: false,
+      check: null,
 
       //   editAccount: this.account ? {...this.account } : {
       //   name: '',
@@ -346,36 +363,104 @@ export default {
       let data = localStorage.getItem('account');
       data = JSON.parse(data);
       this.accounts = data;
+      // $( "#listAccount" ).sortable();
     }
   },
 
+ 
   methods:{
-    onSubmit()
+
+    validate()
     {
-      this.showDialog = false;
-      if (process.browser) {
-        let data = localStorage.getItem('account');
-        data = JSON.parse(data);
-        if(!data){
-          data = [];
-        }
-        let id = data.length + 1;
-        let account = 
-        {
-          id: id,
-          avt: 'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg',
-          username: this.naccount.username,
-          name: this.naccount.name,
-          date: format(this.naccount.date, "yyyy-MM-dd"),
-          email: this.naccount.email,
-          gender: this.naccount.gender,
-        };
-        if(account.gender == 'nu') account.avt = 'https://www.smiledental.co.nz/wp-content/uploads/1997/12/generic-avatar-female-2-300x300.png' ;
-        data.push(account);
-        data = JSON.stringify(data);
-        window.localStorage.setItem('account', data);
-        window.location.reload();
+      this.errors = [{
+        username: '',
+        name: '',
+        date: '',
+        address: '',
+        gmail: '',
+        gender: '',
+      }];
+      let isValid = true;
+      if (!this.naccount.username) {
+        this.errors.username = "Bạn cần nhập tên tài khoản.";
+        isValid = false;
       }
+      // const nameRegex = /^[a-zA-Z0-9]+$/;
+      // let checkusername = this.naccount.username.match(nameRegex);
+      // if (checkusername == null) {
+      //   this.errors.username = "Tên tài khoản không đúng quy định.";
+      //   isValid = false;
+      // }
+      if (!this.naccount.date) {
+        this.errors.date = "Bạn cần chọn ngày sinh.";
+        isValid = false;
+      }
+      if (!this.naccount.gender) {
+        this.errors.gender = "Bạn cần chọn giới tính.";
+        isValid = false;
+      }
+      if (!this.naccount.address) {
+        this.errors.address = "Bạn cần nhập địa chỉ.";
+        isValid = false;
+      }
+      if (!this.naccount.email) {
+        this.errors.email = "Bạn cần nhập email.";
+        isValid = false;
+      }
+      return isValid;
+    },
+
+    onSubmit(){
+      if (this.validate()) {
+        this.showDialog = false;
+          if (process.browser) {
+            let data = localStorage.getItem('account');
+            data = JSON.parse(data);
+            if(!data){
+              data = [];
+            }
+            let id = data.length + 1;
+            let account = 
+            {
+              id: id,
+              avt: 'avtboy.jpg',
+              username: this.naccount.username,
+              name: this.naccount.name,
+              date: format(this.naccount.date, "yyyy-MM-dd"),
+              email: this.naccount.email,
+              gender: this.naccount.gender,
+            };
+            if(account.gender == 'nu') account.avt = 'avtgirl.jpg' ;
+            data.push(account);
+            data = JSON.stringify(data);
+            window.localStorage.setItem('account', data);
+            window.location.reload();
+          }
+      }
+      // this.showDialog = false;
+      // if (process.browser) {
+      //   let data = localStorage.getItem('account');
+      //   data = JSON.parse(data);
+      //   if(!data){
+      //     data = [];
+      //   }
+      //   let id = data.length + 1;
+      //   let account = 
+      //   {
+      //     id: id,
+      //     avt: '/_nuxt/assets/avtboy.jpg',
+      //     username: this.naccount.username,
+      //     name: this.naccount.name,
+      //     date: format(this.naccount.date, "yyyy-MM-dd"),
+      //     email: this.naccount.email,
+      //     gender: this.naccount.gender,
+      //   };
+      //   if(account.gender == 'nu') account.avt = '/_nuxt/assets/avtgirl.jpg' ;
+      //   data.push(account);
+      //   data = JSON.stringify(data);
+      //   window.localStorage.setItem('account', data);
+      //   window.location.reload();
+      // }
     },
 
   editModal: function(id)
@@ -397,6 +482,7 @@ export default {
       window.location.reload();
     }
   },
+
   },
 }
 </script>

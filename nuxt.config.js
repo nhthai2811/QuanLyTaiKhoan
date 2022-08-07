@@ -1,5 +1,3 @@
-import webpack from "webpack";
-
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -12,6 +10,12 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      {src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', type: "text/javascript"},
+      {src: 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js', type: "text/javascript"},
+      {src: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js', type: "text/javascript"},
+      {src: 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js', type: "text/javascript"},
     ]
   },
 
@@ -61,9 +65,5 @@ export default {
   },
 
   script: [
-    {
-      src: "https://code.jquery.com/jquery-3.6.0.slim.min.js",
-      type: "text/javascript"
-    },
   ]
 }
