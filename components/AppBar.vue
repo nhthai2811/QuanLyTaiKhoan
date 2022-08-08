@@ -1,11 +1,18 @@
 <template>
   <div>
-    <md-app>
-      <md-app-drawer md-permanent="full">
+    <md-app md-mode="reveal">
+      <md-app-toolbar class="md-primary">
+        <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
+          <img src="menu.png">
+        </md-button>
+        <span class="md-title">My Title</span>
+      </md-app-toolbar>
+
+      <md-app-drawer :md-active.sync="menuVisible">
         <md-list class="menu">
           <md-list-item>
             <NuxtLink to="/">
-              <md-button md-menu-trigger class="btmenu">Quản lý tài khoản</md-button>
+              <md-button md-menu-trigger class="btmenu" @click="menuVisible = !menuVisible">Quản lý tài khoản</md-button>
             </NuxtLink>
           </md-list-item>
           <md-list-item>
@@ -13,6 +20,7 @@
           </md-list-item>
         </md-list>
       </md-app-drawer>
+
 
       <md-app-content>
         <div v-if="viewmode === 'list'">
@@ -367,7 +375,7 @@ export default {
       gender: null,
       del: false,
       check: null,
-
+      menuVisible: false,
     }
   },
 
