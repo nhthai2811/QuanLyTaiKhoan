@@ -9,7 +9,6 @@
             </NuxtLink>
           </md-list-item>
           <md-list-item>
-            <!--            <md-button md-menu-trigger @click="showDialog = true" class="btmenu">Tạo tài khoản</md-button>-->
             <md-button md-menu-trigger v-on:click="openCreateModal" class="btmenu">Tạo tài khoản</md-button>
           </md-list-item>
         </md-list>
@@ -70,48 +69,6 @@
       </md-app-content>
     </md-app>
     <div>
-      <!--      <md-dialog :md-active.sync="showDialog">-->
-      <!--        <md-dialog-title>Thêm</md-dialog-title>-->
-
-      <!--        <form class="createForm" id="create" name="createForm" v-on:submit.prevent="onSubmit()">-->
-      <!--          <md-field class="md-field-dialog" :md-counter="false">-->
-      <!--            <label>Tên tài khoản</label>-->
-      <!--            <md-input v-model="naccount.username" name="username" maxlength="8"></md-input>-->
-      <!--          </md-field>-->
-      <!--          <div class="error" v-if="errors.username">{{ errors.username }}</div>-->
-      <!--          <md-field class="md-field-dialog" :md-counter="false">-->
-      <!--            <label>Họ và tên</label>-->
-      <!--            <md-input v-model="naccount.name" name="name" maxlength="20"></md-input>-->
-      <!--          </md-field>-->
-      <!--          <md-field class="md-field-dialog">-->
-      <!--            <label>Email</label>-->
-      <!--            <md-input v-model="naccount.email" name="email" type="email"></md-input>-->
-      <!--          </md-field>-->
-      <!--          <div class="error" v-if="errors.email">{{ errors.email }}</div>-->
-      <!--          <div class="md-field-dialog">-->
-      <!--            <md-datepicker v-model="naccount.date">-->
-      <!--              <label>Ngày sinh</label>-->
-      <!--            </md-datepicker>-->
-      <!--          </div>-->
-      <!--          <div class="error" v-if="errors.date">{{ errors.date }}</div>-->
-      <!--          <div class="md-field-dialog">-->
-      <!--            <div>-->
-      <!--              <md-radio v-model="naccount.gender" value="nam" class="md-primary">Nam</md-radio>-->
-      <!--              <md-radio v-model="naccount.gender" value="nu" class="md-primary">Nữ</md-radio>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--          <div class="error" v-if="errors.gender">{{ errors.gender }}</div>-->
-      <!--          <md-field class="md-field-dialog" :md-counter="false">-->
-      <!--            <label>Địa chỉ</label>-->
-      <!--            <md-textarea v-model="naccount.address" maxlength="200" md-autogrow></md-textarea>-->
-      <!--          </md-field>-->
-      <!--          <div class="error" v-if="errors.address">{{ errors.address }}</div>-->
-      <!--          <md-card-actions class="btmodal">-->
-      <!--            <md-button type="submit" class="md-primary">Tạo tài khoản</md-button>-->
-      <!--            <md-button class="md-primary" @click="showDialog = false">Close</md-button>-->
-      <!--          </md-card-actions>-->
-      <!--        </form>-->
-      <!--      </md-dialog>-->
 
       <div class="modal" id="openAccountModal" style="z-index: 10">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -150,14 +107,14 @@
                 <div class="error" v-if="errors.date">{{ errors.date }}</div>
                 <div class="md-field-dialog">
                   <div>
-<!--                    <md-radio v-model="naccount.gender" value="nam" class="md-primary">Nam</md-radio>-->
-<!--                    <md-radio v-model="naccount.gender" value="nu" class="md-primary">Nữ</md-radio>-->
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="gender" id="genderNam" value="nam" v-model="naccount.gender" >
+                      <input class="form-check-input" type="radio" name="gender" id="genderNam" value="nam"
+                             v-model="naccount.gender">
                       <label class="form-check-label" for="inlineRadio1">Nam</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="gender" id="genderNu" value="nu" v-model="naccount.gender">
+                      <input class="form-check-input" type="radio" name="gender" id="genderNu" value="nu"
+                             v-model="naccount.gender">
                       <label class="form-check-label" for="inlineRadio2">Nữ</label>
                     </div>
                   </div>
@@ -180,43 +137,6 @@
       </div>
 
     </div>
-
-    <!-- <div>
-      <md-dialog :md-active.sync="showDialogEdit">
-        <md-dialog-title>Sửa</md-dialog-title>
-
-        <form class="createForm" id="create">
-            <md-field class="md-field-dialog">
-              <label>Tên tài khoản</label>
-              <md-input v-model="editAccount.username" name="editusername" id="editusername" maxlength="8"></md-input>
-            </md-field>
-            <md-field class="md-field-dialog">
-              <label>Họ và tên</label>
-              <md-input v-model="editAccount.name" name="name"></md-input>
-            </md-field>
-            <md-field class="md-field-dialog">
-              <label>Email</label>
-              <md-input v-model="editAccount.email" name="email"></md-input>
-            </md-field>
-            <div class="md-field-dialog">
-              <md-datepicker v-model="editAccount.date">
-              <label>Ngày sinh</label>
-              </md-datepicker>
-            </div>
-
-            <div class="md-field-dialog">
-              <div>
-                <md-radio v-model="editAccount.gender" value="nam" class="md-primary">Nam</md-radio>
-                <md-radio v-model="editAccount.gender" value="nu" class="md-primary">Nữ</md-radio>
-              </div>
-            </div>
-            <md-card-actions class="btmodal">
-              <md-button type="submit" class="md-primary"  @click.prevent="onSave">Tạo tài khoản</md-button>
-              <md-button class="md-primary" @click="showDialogEdit = false">Close</md-button>
-            </md-card-actions>
-          </form>
-      </md-dialog>
-    </div> -->
 
     <!-- The Modal -->
     <div class="modal" id="editAccount" style="z-index: 10">
@@ -279,37 +199,6 @@
                 <md-button class="md-primary" @click.prevent="back">Hủy</md-button>
               </md-card-actions>
             </form>
-
-            <!--            <form class="createForm" id="create">-->
-            <!--              <md-field class="md-field-dialog">-->
-            <!--                <label>Tên tài khoản</label>-->
-            <!--                <md-input v-model="editAccount.username" name="editusername" id="editusername" maxlength="8"></md-input>-->
-            <!--              </md-field>-->
-            <!--              <md-field class="md-field-dialog">-->
-            <!--                <label>Họ và tên</label>-->
-            <!--                <md-input v-model="editAccount.name" name="name" id="editname"></md-input>-->
-            <!--              </md-field>-->
-            <!--              <md-field class="md-field-dialog">-->
-            <!--                <label>Email</label>-->
-            <!--                <md-input v-model="editAccount.email" name="email" id="editemail"></md-input>-->
-            <!--              </md-field>-->
-            <!--              <div class="md-field-dialog">-->
-            <!--                <md-datepicker class="datedialog" v-model="editAccount.date">-->
-            <!--                  <label>Ngày sinh</label>-->
-            <!--                </md-datepicker>-->
-            <!--              </div>-->
-
-            <!--              <div class="md-field-dialog">-->
-            <!--                <div>-->
-            <!--                  <md-radio v-model="editAccount.gender" value="nam" class="md-primary">Nam</md-radio>-->
-            <!--                  <md-radio v-model="editAccount.gender" value="nu" class="md-primary">Nữ</md-radio>-->
-            <!--                </div>-->
-            <!--              </div>-->
-            <!--              <md-card-actions class="btmodal">-->
-            <!--                <md-button type="submit" class="md-primary"  @click.prevent="onSave">Tạo tài khoản</md-button>-->
-            <!--                <md-button class="md-primary" @click="showDialogEdit = false">Close</md-button>-->
-            <!--              </md-card-actions>-->
-            <!--            </form>-->
           </div>
         </div>
       </div>
@@ -427,7 +316,7 @@
   overflow-x: hidden;
 }
 
-#editAccount .md-field label{
+#editAccount .md-field label {
   pointer-events: auto;
   top: 0;
   opacity: 1;
@@ -438,8 +327,8 @@
 
 <script>
 import format from 'date-fns/format';
-import { parse, isValid } from 'date-fns';
-import { enGB } from 'date-fns/locale';
+import {parse, isValid} from 'date-fns';
+import {enGB} from 'date-fns/locale';
 import isMatch from 'date-fns/isMatch'
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
@@ -448,63 +337,10 @@ import 'vue-material/dist/theme/default.css'
 
 
 Vue.use(VueMaterial);
-// let account = [
-//         {
-//           id: 1,
-//           avt: 'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg',
-//           username: 'nhthai12',
-//           name: 'Nguyen Hoang Thai',
-//           date: '0343579108',
-//           email: 'hoangthai123@gmail.com',
-//           gender: 'nam',
-//         },
-//         {
-//           id: 2,
-//           avt: 'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg',
-//           username: 'nhthong1',
-//           name: 'Nguyen Hoang Thong',
-//           date: '0903456471',
-//           email: 'hoangthong123@gmail.com',
-//           gender: 'nam',
-//         },
-//         {
-//           id: 3,
-//           avt: 'https://www.smiledental.co.nz/wp-content/uploads/1997/12/generic-avatar-female-2-300x300.png',
-//           username: 'nhphu123',
-//           name: 'Nguyen Hoang Phu',
-//           date: '0121568423',
-//           email: 'hoangphu123@gmail.com',
-//           gender: 'nu',
-//         },
-//       ]
-// account = JSON.stringify(account);
-// if (process.browser) {
-//   window.localStorage.setItem('account', account);
-// }
-
-// if (process.browser) {
-//  let accounts1 =  window.localStorage.getItem('account');
-// //  account1 = JSON.parseJson(accounts1);
-//  console.log(accounts1);
-// }
 
 
 export default {
   name: 'RegularSwitch',
-  // props: {
-  //   account: {
-  //     type: Object,
-  //     default: {
-  //       name: '',
-  //       username: '',
-  //       pw: '',
-  //       cpw: '',
-  //       address: '',
-  //       date: '',
-  //     }
-  //   }
-  // },
-
   data() {
     return {
       accounts: [],
@@ -530,14 +366,6 @@ export default {
       del: false,
       check: null,
 
-      //   editAccount: this.account ? {...this.account } : {
-      //   name: '',
-      //   username: '',
-      //   pw: '',
-      //   cpw: '',
-      //   address: '',
-      //   date: '',
-      // }
     }
   },
 
@@ -548,7 +376,7 @@ export default {
       this.accounts = data;
       $("#listAccount").sortable();
 
-       window.onSave = function() {
+      window.onSave = function () {
         let editAccount =
           {
             id: $('#idAccount').val(),
@@ -557,21 +385,20 @@ export default {
             email: $('#editEmail').val(),
             address: $('#editAddress').val(),
             gender: $('input[name=gender]:checked').val(),
-            date: $('#editAccount .md-datepicker input' ).val(),
+            date: $('#editAccount .md-datepicker input').val(),
             avt: 'avtboy.jpg',
           };
 
-        if (editvalidate())
-        {
-        if(editAccount.gender == 'nu' ) editAccount.avt = 'avtgirl.jpg';
-        let data = localStorage.getItem('account');
-        data = JSON.parse(data);
-        let delAccountIndex = data.findIndex((account) => account.id == editAccount.id);
-        data.splice(delAccountIndex, 1);
-        data.push(editAccount);
-        data = JSON.stringify(data);
-        window.localStorage.setItem('account', data);
-        window.location.reload();
+        if (editvalidate()) {
+          if (editAccount.gender == 'nu') editAccount.avt = 'avtgirl.jpg';
+          let data = localStorage.getItem('account');
+          data = JSON.parse(data);
+          let delAccountIndex = data.findIndex((account) => account.id == editAccount.id);
+          data.splice(delAccountIndex, 1);
+          data.push(editAccount);
+          data = JSON.stringify(data);
+          window.localStorage.setItem('account', data);
+          window.location.reload();
         }
       };
 
@@ -583,26 +410,21 @@ export default {
             email: $('#editEmail').val(),
             address: $('#editAddress').val(),
             gender: $('input[name=gender]:checked').val(),
-            date: $('#editAccount .md-datepicker input' ).val(),
+            date: $('#editAccount .md-datepicker input').val(),
           }
         let isValid = true;
         if (!editAccount.username) {
-          // this.errors.username = "Bạn cần nhập tên tài khoản.";
           isValid = false;
           $('.err-username').text('Bạn cần nhập tên tài khoản.');
-        }
-        else
-        {
+        } else {
           const nameRegex = /^[a-zA-Z0-9]+$/;
           let checkusername = editAccount.username.match(nameRegex);
           if (checkusername == null) {
-            // this.errors.username = "Tên tài khoản không đúng quy định.";
             $('.err-username').text('Tên tài khoản không đúng quy định');
             isValid = false;
           }
         }
         if (!editAccount.date) {
-          // this.errors.date = "Bạn cần chọn ngày sinh.";
           $('.err-date').text('Bạn cần chọn ngày sinh.');
           isValid = false;
         }
@@ -611,22 +433,17 @@ export default {
           isValid = false;
         }
         if (!editAccount.address) {
-          // this.errors.address = "Bạn cần nhập địa chỉ.";
           $('.err-address').text('Bạn cần nhập địa chỉ.');
           isValid = false;
         }
         if (!editAccount.gender) {
-          // this.errors.address = "Bạn cần nhập địa chỉ.";
           $('.err-address').text('Bạn cần chọn giới tính');
           isValid = false;
         }
         if (!editAccount.email) {
-          // this.errors.email = "Bạn cần nhập email.";
           $('.err-email').text('Bạn cần nhập email.');
           isValid = false;
-        }
-        else
-        {
+        } else {
           const nameRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
           let checkemail = editAccount.email.match(nameRegex);
           if (checkemail == null) {
@@ -634,10 +451,6 @@ export default {
             isValid = false;
           }
         }
-
-        // if (isValid) {
-        //   onSave();
-        // }
         return isValid;
       };
 
@@ -687,9 +500,7 @@ export default {
       if (!this.naccount.email) {
         this.errors.email = "Bạn cần nhập email.";
         isValid = false;
-      }
-      else
-      {
+      } else {
         const nameRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         let checkemail = this.naccount.email.match(nameRegex);
         if (checkemail == null) {
@@ -699,7 +510,6 @@ export default {
       }
       return isValid;
     },
-
 
 
     onSubmit() {
@@ -734,12 +544,6 @@ export default {
 
     editModal: function (id) {
       if (process.browser) {
-        //
-        // const parsedDate = parse('29/10/1989', 'P', new Date(), { locale: enGB });
-        // const isValidDate = isValid(parsedDate);
-        // const formattedDate = format(parsedDate, 'dd-MM-yyyy');
-        // console.log(isValidDate);
-        // const formattedDate = isMatch('123123', 'yyyy-mm-dd')
         let data = localStorage.getItem('account');
         data = JSON.parse(data);
         let editAccount = data.find((account) => account.id == id);
@@ -756,13 +560,13 @@ export default {
         $('#idAccount').val(editAccount.id);
         $('#nameAccount').val(editAccount.name);
         $('#usernameAccount').val(editAccount.username);
-        if (editAccount.gender == 'nam'){
+        if (editAccount.gender == 'nam') {
           $('#editgenderNam').prop('checked', true);
-        }else{
+        } else {
           $('#editgenderNu').prop('checked', true);
         }
-        $('#editAccount .md-datepicker input' ).val(editAccount.date);
-        $('#editAccount .md-datepicker' ).addClass('md-focused');
+        $('#editAccount .md-datepicker input').val(editAccount.date);
+        $('#editAccount .md-datepicker').addClass('md-focused');
       }
     },
 
