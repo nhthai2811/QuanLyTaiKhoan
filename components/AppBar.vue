@@ -29,12 +29,13 @@
             <div v-if="viewmode === 'card'" class="md-with-hover">
               <md-card-header>
                 <md-card-header-text>
-                  <span>Tên: {{ account.name }}</span><br>
-                  <span>Tên tài khoản: {{ account.username }}</span><br>
-                  <span>Ngày sinh: {{ account.date }}</span><br>
-                  <span>Giới tính: {{ account.gender }}</span><br>
-                  <span>Email: {{ account.email }}</span><br>
-                  <span>Địa chỉ: {{ account.address }}</span>
+                  <span><b><span>Tên:</span></b> {{ account.name }}</span><br>
+                  <span><b><span>Tên tài khoản:</span></b>{{ account.username }}</span><br>
+                  <span><b><span>Ngày sinh: </span></b>{{ account.date }}</span><br>
+                  <span v-if="account.gender=='nam'"><b><span>Giới tính: </span></b>Nam</span>
+                  <span v-if="account.gender=='nu'"><b><span>Giới tính: </span></b>Nữ</span>
+                  <br><span><b><span>Email: </span></b>{{ account.email }}</span><br>
+                  <span><b><span>Địa chỉ: </span></b>{{ account.address }}</span>
                 </md-card-header-text>
 
                 <md-card-media>
@@ -53,12 +54,13 @@
                   <img class="avt" :src="account.avt" alt="People">
                 </md-avatar>
                 <div class="md-list-item-text">
-                  <span>Tên: {{ account.name }}</span>
-                  <span>Tên tài khoản: {{ account.username }}</span>
-                  <span>Ngày sinh: {{ account.date }}</span>
-                  <span>Giới tính: {{ account.gender }}</span>
-                  <span>Email: {{ account.email }}</span>
-                  <span>Địa chỉ: {{ account.address }}</span>
+                  <span><b><span>Tên:</span></b> {{ account.name }}</span>
+                  <span><b><span>Tên tài khoản:</span></b>{{ account.username }}</span>
+                  <span><b><span>Ngày sinh: </span></b>{{ account.date }}</span>
+                  <span v-if="account.gender=='nam'"><b><span>Giới tính: </span></b>Nam</span>
+                  <span v-if="account.gender=='nu'"><b><span>Giới tính: </span></b>Nữ</span>
+                  <span><b><span>Email: </span></b>{{ account.email }}</span>
+                  <span><b><span>Địa chỉ: </span></b>{{ account.address }}</span>
                 </div>
                 <md-button md-menu-trigger v-on:click="editModal(account.id)">Sửa</md-button>
                 <md-button class="md-accent" v-on:click="delModal(account.id)">Xóa</md-button>
@@ -95,7 +97,7 @@
                 </md-field>
                 <md-field class="md-field-dialog">
                   <label>Email</label>
-                  <md-input v-model="naccount.email" name="email" type="email"></md-input>
+                  <md-input v-model="naccount.email" name="email" ></md-input>
                 </md-field>
                 <div class="error" v-if="errors.email">{{ errors.email }}</div>
                 <div class="md-field-dialog">
@@ -169,7 +171,7 @@
               <div class="error err-name"></div>
               <md-field class="md-field-dialog">
                 <label>Email</label>
-                <md-input name="email" type="email" id="editEmail"></md-input>
+                <md-input name="email" id="editEmail"></md-input>
               </md-field>
               <div class="error err-email"></div>
               <div class="md-field-dialog date">
@@ -311,7 +313,7 @@
 }
 
 .md-card-header-text {
-  height: 100px;
+  height: 170px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -550,13 +552,9 @@ export default {
 
         $('#editAccount').modal('toggle');
         $('#editUsername').val(editAccount.username);
-        $('#editUsername').parents().addClass('md-focused');
         $('#editName').val(editAccount.name);
-        $('#editName').parents().addClass('md-focused');
         $('#editEmail').val(editAccount.email);
-        $('#editEmail').parents().addClass('md-focused');
         $('#editAddress').val(editAccount.address);
-        $('#editAddress').parents().addClass('md-focused');
         $('#idAccount').val(editAccount.id);
         $('#nameAccount').val(editAccount.name);
         $('#usernameAccount').val(editAccount.username);
@@ -566,7 +564,6 @@ export default {
           $('#editgenderNu').prop('checked', true);
         }
         $('#editAccount .md-datepicker input').val(editAccount.date);
-        $('#editAccount .md-datepicker').addClass('md-focused');
       }
     },
 
