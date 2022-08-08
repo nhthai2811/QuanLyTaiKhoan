@@ -5,16 +5,11 @@
         <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
           <img src="menu.png">
         </md-button>
-        <span class="md-title">My Title</span>
+        <span class="md-title">Quản lý tài khoản</span>
       </md-app-toolbar>
 
       <md-app-drawer :md-active.sync="menuVisible">
         <md-list class="menu">
-          <md-list-item>
-            <NuxtLink to="/">
-              <md-button md-menu-trigger class="btmenu" @click="menuVisible = !menuVisible">Quản lý tài khoản</md-button>
-            </NuxtLink>
-          </md-list-item>
           <md-list-item>
             <md-button md-menu-trigger v-on:click="openCreateModal" class="btmenu">Tạo tài khoản</md-button>
           </md-list-item>
