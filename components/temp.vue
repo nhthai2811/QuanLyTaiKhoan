@@ -30,12 +30,11 @@
             <div v-if="viewmode === 'card'" class="md-with-hover">
               <md-card-header>
                 <md-card-header-text>
-                  <span>Tên: {{ account.name }}</span><br>
-                  <span>Tên tài khoản: {{ account.username }}</span><br>
-                  <span>Ngày sinh: {{ account.date }}</span><br>
-                  <span>Giới tính: {{ account.gender }}</span><br>
-                  <span>Email: {{ account.email }}</span><br>
-                  <span>Địa chỉ: {{ account.address }}</span>
+                  <span>{{ account.name }}</span><br>
+                  <span>{{ account.username }}</span>
+                  <span>{{ account.email }}</span><br>
+                  <span>{{ account.address }}</span>
+                  <span>{{ account.date }}</span>
                 </md-card-header-text>
 
                 <md-card-media>
@@ -54,12 +53,10 @@
                   <img class="avt" :src="account.avt" alt="People">
                 </md-avatar>
                 <div class="md-list-item-text">
-                  <span>Tên: {{ account.name }}</span>
-                  <span>Tên tài khoản: {{ account.username }}</span>
-                  <span>Ngày sinh: {{ account.date }}</span>
-                  <span>Giới tính: {{ account.gender }}</span>
-                  <span>Email: {{ account.email }}</span>
-                  <span>Địa chỉ: {{ account.address }}</span>
+                  <span>{{ account.username }}</span>
+                  <span>{{ account.name }}</span>
+                  <span>{{ account.date }}</span>
+                  <span>{{ account.email }}</span>
                 </div>
                 <md-button md-menu-trigger v-on:click="editModal(account.id)">Sửa</md-button>
                 <md-button class="md-accent" v-on:click="delModal(account.id)">Xóa</md-button>
@@ -119,7 +116,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">Thêm tài khoản</h4>
+              <h4 class="modal-title">Sửa thông tin</h4>
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -144,22 +141,13 @@
                 <div class="md-field-dialog">
                   <md-datepicker v-model="naccount.date">
                     <label>Ngày sinh</label>
-                    <span class="md-helper-text">yyyy-mm-dd</span>
                   </md-datepicker>
                 </div>
                 <div class="error" v-if="errors.date">{{ errors.date }}</div>
                 <div class="md-field-dialog">
                   <div>
-<!--                    <md-radio v-model="naccount.gender" value="nam" class="md-primary">Nam</md-radio>-->
-<!--                    <md-radio v-model="naccount.gender" value="nu" class="md-primary">Nữ</md-radio>-->
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="gender" id="genderNam" value="nam" v-model="naccount.gender" >
-                      <label class="form-check-label" for="inlineRadio1">Nam</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="gender" id="genderNu" value="nu" v-model="naccount.gender">
-                      <label class="form-check-label" for="inlineRadio2">Nữ</label>
-                    </div>
+                    <md-radio v-model="naccount.gender" value="nam" class="md-primary">Nam</md-radio>
+                    <md-radio v-model="naccount.gender" value="nu" class="md-primary">Nữ</md-radio>
                   </div>
                 </div>
                 <div class="error" v-if="errors.gender">{{ errors.gender }}</div>
@@ -232,7 +220,7 @@
           <!-- Modal body -->
           <div class="modal-body">
 
-            <form class="createForm" id="editForm" name="createForm">
+            <form class="createForm" id="create" name="createForm" v-on:submit.prevent="onSubmit()">
               <input type="hidden" id="idAccount">
               <md-field class="md-field-dialog" :md-counter="false">
                 <label>Tên tài khoản</label>
@@ -246,36 +234,35 @@
                 <md-input name="name" maxlength="20" id="editName"></md-input>
                 <!--                <md-input name="name" maxlength="20" id="editName"></md-input>-->
               </md-field>
-              <div class="error err-name"></div>
               <md-field class="md-field-dialog">
                 <label>Email</label>
                 <md-input name="email" type="email" id="editEmail"></md-input>
               </md-field>
-              <div class="error err-email"></div>
+              <div class="error"></div>
               <div class="md-field-dialog date">
                 <md-datepicker>
                   <label>Ngày sinh</label>
-                  <span class="md-helper-text">yyyy-mm-dd</span>
                 </md-datepicker>
               </div>
-              <div class="error err-date"></div>
+              <div class="error"></div>
               <div class="md-field-dialog">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="gender" id="editgenderNam" value="nam">
+                  <input class="form-check-input" type="radio" name="gender" id="genderNam" value="nam">
                   <label class="form-check-label" for="inlineRadio1">Nam</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="gender" id="editgenderNu" value="nu">
+                  <input class="form-check-input" type="radio" name="gender" id="genderNu" value="nu">
                   <label class="form-check-label" for="inlineRadio2">Nữ</label>
                 </div>
               </div>
+              <div class="error"></div>
               <md-field class="md-field-dialog" :md-counter="false">
                 <label>Địa chỉ</label>
                 <md-textarea maxlength="200" md-autogrow id="editAddress"></md-textarea>
               </md-field>
-              <div class="error err-address"></div>
+              <div class="error"></div>
               <md-card-actions class="btmodal">
-                <md-button class="md-primary" onclick="window.onSave()">Lưu lại</md-button>
+                <md-button class="md-primary" onclick="window.editvalidate()">Lưu lại</md-button>
                 <md-button class="md-primary" @click.prevent="back">Hủy</md-button>
               </md-card-actions>
             </form>
@@ -348,7 +335,7 @@
 }
 
 .md-card {
-  width: 400px;
+  width: 320px;
   margin: 4px;
   display: inline-block;
   vertical-align: top;
@@ -420,27 +407,10 @@
 .modal-dialog {
   z-index: 10 !important;
 }
-
-.md-card-header-text {
-  height: 100px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-#editAccount .md-field label{
-  pointer-events: auto;
-  top: 0;
-  opacity: 1;
-  font-size: 12px;
-}
-
 </style>
 
 <script>
-import format from 'date-fns/format';
-import { parse, isValid } from 'date-fns';
-import { enGB } from 'date-fns/locale';
-import isMatch from 'date-fns/isMatch'
+import format from 'date-fns/format'
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
@@ -548,34 +518,15 @@ export default {
       this.accounts = data;
       $("#listAccount").sortable();
 
-       window.onSave = function() {
-        let editAccount =
-          {
-            id: $('#idAccount').val(),
-            username: $('#editUsername').val(),
-            name: $('#editName').val(),
-            email: $('#editEmail').val(),
-            address: $('#editAddress').val(),
-            gender: $('input[name=gender]:checked').val(),
-            date: $('#editAccount .md-datepicker input' ).val(),
-            avt: 'avtboy.jpg',
-          };
-
-        if (editvalidate())
-        {
-        if(editAccount.gender == 'nu' ) editAccount.avt = 'avtgirl.jpg';
-        let data = localStorage.getItem('account');
-        data = JSON.parse(data);
-        let delAccountIndex = data.findIndex((account) => account.id == editAccount.id);
-        data.splice(delAccountIndex, 1);
-        data.push(editAccount);
-        data = JSON.stringify(data);
-        window.localStorage.setItem('account', data);
-        window.location.reload();
-        }
-      };
-
-      function editvalidate() {
+      window.editvalidate = function() {
+        this.errors = [{
+          username: '',
+          name: '',
+          date: '',
+          address: '',
+          gmail: '',
+          gender: '',
+        }];
         let editAccount =
           {
             username: $('#editUsername').val(),
@@ -583,13 +534,13 @@ export default {
             email: $('#editEmail').val(),
             address: $('#editAddress').val(),
             gender: $('input[name=gender]:checked').val(),
-            date: $('#editAccount .md-datepicker input' ).val(),
+            // date: $('#editAddress').val(),
           }
         let isValid = true;
         if (!editAccount.username) {
           // this.errors.username = "Bạn cần nhập tên tài khoản.";
+          console.log('aaaa');
           isValid = false;
-          $('.err-username').text('Bạn cần nhập tên tài khoản.');
         }
         else
         {
@@ -597,55 +548,35 @@ export default {
           let checkusername = editAccount.username.match(nameRegex);
           if (checkusername == null) {
             // this.errors.username = "Tên tài khoản không đúng quy định.";
-            $('.err-username').text('Tên tài khoản không đúng quy định');
+
             isValid = false;
           }
         }
-        if (!editAccount.date) {
-          // this.errors.date = "Bạn cần chọn ngày sinh.";
-          $('.err-date').text('Bạn cần chọn ngày sinh.');
-          isValid = false;
-        }
-        if (isMatch(editAccount.date, 'yyyy-mm-dd') == false) {
-          $('.err-date').text('Ngày không hợp lệ.');
+        // if (!editAccount.date) {
+        //   this.errors.date = "Bạn cần chọn ngày sinh.";
+        //   isValid = false;
+        // }
+        if (!editAccount.gender) {
+          // this.errors.gender = "Bạn cần chọn giới tính.";
           isValid = false;
         }
         if (!editAccount.address) {
           // this.errors.address = "Bạn cần nhập địa chỉ.";
-          $('.err-address').text('Bạn cần nhập địa chỉ.');
-          isValid = false;
-        }
-        if (!editAccount.gender) {
-          // this.errors.address = "Bạn cần nhập địa chỉ.";
-          $('.err-address').text('Bạn cần chọn giới tính');
           isValid = false;
         }
         if (!editAccount.email) {
           // this.errors.email = "Bạn cần nhập email.";
-          $('.err-email').text('Bạn cần nhập email.');
           isValid = false;
         }
-        else
-        {
-          const nameRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-          let checkemail = editAccount.email.match(nameRegex);
-          if (checkemail == null) {
-            $('.err-email').text('Email không hợp lệ');
-            isValid = false;
-          }
+        debugger
+        if (isValid) {
+          this.onSave();
         }
-
-        // if (isValid) {
-        //   onSave();
-        // }
-        return isValid;
       };
-
-      $('#editAccount').on('show.bs.modal', function (e) {
-        $(this).find('.error').text('');
-      })
-
     }
+
+
+
   },
 
 
@@ -688,15 +619,6 @@ export default {
         this.errors.email = "Bạn cần nhập email.";
         isValid = false;
       }
-      else
-      {
-        const nameRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        let checkemail = this.naccount.email.match(nameRegex);
-        if (checkemail == null) {
-          this.errors.email = "Email không hợp lệ.";
-          isValid = false;
-        }
-      }
       return isValid;
     },
 
@@ -734,12 +656,6 @@ export default {
 
     editModal: function (id) {
       if (process.browser) {
-        //
-        // const parsedDate = parse('29/10/1989', 'P', new Date(), { locale: enGB });
-        // const isValidDate = isValid(parsedDate);
-        // const formattedDate = format(parsedDate, 'dd-MM-yyyy');
-        // console.log(isValidDate);
-        // const formattedDate = isMatch('123123', 'yyyy-mm-dd')
         let data = localStorage.getItem('account');
         data = JSON.parse(data);
         let editAccount = data.find((account) => account.id == id);
@@ -757,13 +673,39 @@ export default {
         $('#nameAccount').val(editAccount.name);
         $('#usernameAccount').val(editAccount.username);
         if (editAccount.gender == 'nam'){
-          $('#editgenderNam').prop('checked', true);
+          $('#genderNam').prop('checked', true);
         }else{
-          $('#editgenderNu').prop('checked', true);
+          $('#genderNu').prop('checked', true);
         }
-        $('#editAccount .md-datepicker input' ).val(editAccount.date);
-        $('#editAccount .md-datepicker' ).addClass('md-focused');
+        // $('.md-datepicker').children().children('.md-input').val('1999-11-28');
+        // $('.date').children('.md-datepicker').addClass('aaaa');
       }
+    },
+
+    onSave() {
+      let editAccount =
+        {
+          id: $('#idAccount').val(),
+          username: $('#editUsername').val(),
+          name: $('#editName').val(),
+          email: $('#editEmail').val(),
+          address: $('#editAddress').val(),
+          gender: $('input[name=gender]:checked').val(),
+          avt: 'avtboy.jpg',
+        };
+
+      // if (this.editvalidate())
+      // {
+      if(editAccount.gender == 'nu' ) editAccount.avt = 'avtgirl.jpg';
+      let data = localStorage.getItem('account');
+      data = JSON.parse(data);
+      let delAccountIndex = data.findIndex((account) => account.id == editAccount.id);
+      data.splice(delAccountIndex, 1);
+      data.push(editAccount);
+      data = JSON.stringify(data);
+      window.localStorage.setItem('account', data);
+      window.location.reload();
+      // }
     },
 
     back() {
